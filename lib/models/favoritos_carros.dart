@@ -1,15 +1,21 @@
-import 'dart:collection';
-
 import 'package:car/models/carro.dart';
 import 'package:flutter/material.dart';
 
-class FavoritosCarros extends ChangeNotifier {
-  final List<Carro> _carros = [];
+class FavoritosCarros with ChangeNotifier {
+  Set<Carro> _favoritos = {};
 
-  UnmodifiableListView<Carro> get carros => UnmodifiableListView(_carros);
+  Set<Carro> get carros => _favoritos;
 
-  void add(Carro carro) {
-    _carros.add(carro);
+  void toggleFavorite(Carro carro) {
+    if (_favoritos.contains(carro)) {
+      _favoritos.remove(carro);
+    } else {
+      _favoritos.add(carro);
+    }
     notifyListeners();
+  }
+
+  bool isFavorite(Carro carro) {
+    return _favoritos.contains(carro);
   }
 }
